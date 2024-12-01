@@ -13,8 +13,8 @@ API desenvolvida para gerenciar dados de residentes e veículos em um condomíni
 1. **Clone o repositório:**
 
    ```
-   git clone https://github.com/seu-usuario/seu-repositorio.git
-   cd seu-repositorio
+   git clone https://github.com/Wesleyhrl/backend-condominio.git
+   cd backend-condominio
    ```
 
 2.  ***Configure as variáveis de ambiente:***
