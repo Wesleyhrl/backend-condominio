@@ -13,25 +13,30 @@ exports.getAllVehicles = async (req, res) => {
 
 // Criar um novo veículo
 exports.createVehicle = async (req, res) => {
-    const { model, brand, year, owner } = req.body;
-
     try {
-        // Verificar se o id do residente existe
-        const resident = await Resident.findOne({ id: owner });  // Verificando pelo id numérico
+        const { model, brand, year, plate, color, owner } = req.body; // `ownerName` agora é passado no corpo da requisição
+
+        // Buscar o residente pelo nome (ou outros critérios, como 'apartment', se necessário)
+        const resident = await Resident.findOne({ name: owner });
+
+        // Verifica se o residente foi encontrado
         if (!resident) {
             return res.status(404).json({ message: "Residente não encontrado." });
         }
 
-        // Criar o veículo
+        // Criar o novo veículo com o ID do residente
         const vehicle = new Vehicle({
             model,
             brand,
             year,
-            owner
+            plate, // Novo campo de placa
+            color, // Novo campo de cor
+            owner: resident.id // Usa o ObjectId do residente
         });
 
+        // Salvar o veículo no banco de dados
         await vehicle.save();
-        res.status(201).json(vehicle);
+        res.status(201).json(vehicle); // Retorna o veículo criado com sucesso
     } catch (error) {
         res.status(400).json({ message: "Erro ao criar veículo.", error });
     }
